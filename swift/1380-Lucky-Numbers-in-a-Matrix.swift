@@ -3,10 +3,10 @@ class Solution {
         var maxSet: Set<Int> = []
         var minSet: Set<Int> = []
         
-        for row in matrix {
+        for row in 0..<matrix.count {
             var rowMin = Int.max
-            for value in row {
-                rowMin = min(rowMin, value)
+            for col in 0..<matrix[0].count {
+                rowMin = min(rowMin, matrix[row][col])
             }
             minSet.insert(rowMin)
         }
