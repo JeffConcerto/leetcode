@@ -6,7 +6,7 @@ class Solution {
             numberMap[num, default: 0] += 1
         }
         
-        return numberMap.filter { $0 == $1 }.keys.max() ?? 0
+        return numberMap.filter { $0 == $1 }.keys.max() ?? -1
     }
     
 }
