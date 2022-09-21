@@ -8,7 +8,7 @@ class Solution {
     }
     
     func getGCD(minNum: Int, maxNum: Int) -> Int {
-        var divisor = maxNum
+        var divisor = minNum
         
         while divisor > 0 {
             if minNum % divisor  == 0 && maxNum % divisor == 0 { return divisor }
