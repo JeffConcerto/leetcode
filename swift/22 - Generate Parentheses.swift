@@ -1,4 +1,31 @@
-// Assisted Solution:
+// Assisted Solutions:
+
+// Backtracking:
+class Solution {
+    func generateParenthesis(_ n: Int) -> [String] {
+        var answer = [String]()
+        backtrack(&answer, "", 0, 0, n)
+        return answer
+    }
+    
+    private func backtrack(_ answer: inout [String], _ current: String, _ open: Int, _ close: Int, _ max: Int) {
+        guard current.count < max * 2 else {
+            answer.append(current)
+            return
+        }
+        
+        if open < max {
+            backtrack(&answer, current + "(", open+1, close, max)
+        }
+        
+        if close < open {
+            backtrack(&answer, current + ")", open, close+1, max)
+        }
+    }
+
+}
+
+// Brute Force:
 class Solution {
     func generateParenthesis(_ n: Int) -> [String] {
         var combinations = [String]()
