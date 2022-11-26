@@ -15,6 +15,23 @@ class Solution {
 }
 
 // Method 2 - O(N):
+
+class Solution {
+    func maximumDifference(_ nums: [Int]) -> Int {
+        var maxNum = nums.last!
+        var maxDiff = -1
+        
+        for i in 0..<nums.count {
+            if maxNum == nums[nums.count - i - 1] { continue }
+            maxDiff = max(maxDiff, maxNum - nums[nums.count - i - 1])
+            maxNum = max(maxNum, nums[nums.count - i - 1])
+        }
+        
+        return maxDiff
+    }
+}
+
+// Method 3 - Using Stride - Should Be O(N), but Stide is slow:
 class Solution {
     func maximumDifference(_ nums: [Int]) -> Int {
         var maxNum = nums.last!
