@@ -1,16 +1,15 @@
-// First Solution:
 class Solution {
     func combinationSum(_ candidates: [Int], _ target: Int) -> [[Int]] {
-        var result: Set<[Int]> = []
+        var result = [[Int]]()
          helper(candidates, target, [], &result)
        
-        return Array(result)
+        return result
     }
     
-    private func helper(_ candidates: [Int], _ target: Int, _ selected: [Int], _ result: inout Set<[Int]>) {
+    private func helper(_ candidates: [Int], _ target: Int, _ selected: [Int], _ result: inout [[Int]]) {
         guard target > 0 else {
             if target < 0 { return }
-            result.insert(selected)
+            result.append(selected)
             return
         }
         
