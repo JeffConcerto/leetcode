@@ -16,7 +16,6 @@ class Solution {
         
         guard !candidates.isEmpty else { return }
         
-        helper(Array(candidates[1..<candidates.count]), target - candidates[0], selected + [candidates[0]], &result)
         helper(candidates, target - candidates[0], selected + [candidates[0]], &result)
         helper(Array(candidates[1..<candidates.count]), target, selected, &result)
     }
