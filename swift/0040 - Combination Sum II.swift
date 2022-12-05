@@ -25,6 +25,7 @@ class Solution {
         var total = total
       
         helper(Array(candidates[nextIndex..<candidates.count]), target - candidates[0], selection + [candidates[0]], &result, total - candidates[0])
+        
           while nextIndex < candidates.count && candidates[0] == candidates[nextIndex] {
             total -= candidates[nextIndex]
             nextIndex += 1
