@@ -1,3 +1,20 @@
+/* Method 1: */
+class Solution {
+    func sumBase(_ n: Int, _ k: Int) -> Int {
+        var n = n
+        var result = [Int]()
+
+        while n > 0 {
+            result.append(n % k)
+            n /= k
+        }
+
+        return result.reduce(0,+)
+     
+    }
+}
+
+// Method 2:
 class Solution {
     func sumBase(_ n: Int, _ k: Int) -> Int {
         var n = n
