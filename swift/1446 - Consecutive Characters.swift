@@ -17,3 +17,25 @@ class Solution {
         return max(maxCount, currentCount)
     }
 }
+
+// Method 2:
+class Solution {
+    func maxPower(_ s: String) -> Int {
+        var s = Array(s)
+        var currentCount = 1
+        var maxCount = Int.min
+
+        for i in 1..<s.count {
+            if s[i] == s[i-1] {
+                currentCount += 1
+            } else {
+                maxCount = max(currentCount, maxCount)
+                currentCount = 1
+            }
+        }
+
+         maxCount = max(currentCount, maxCount)
+
+         return maxCount
+    }
+}
