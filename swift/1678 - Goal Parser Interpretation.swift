@@ -1,3 +1,4 @@
+// Method 1:
 class Solution {
     func interpret(_ command: String) -> String {
         var result = ""
@@ -20,6 +21,32 @@ class Solution {
             }
         }
         
+        return result
+    }
+}
+
+// Method 2:
+class Solution {
+    func interpret(_ command: String) -> String {
+        var command = Array(command)
+        var result = ""
+        var index = 0
+    
+        while index < command.count {
+            if command[index] == "G" {
+                result.append("G")
+                index += 1
+            } else {
+                if command[index+1] == ")" {
+                    result.append("o")
+                    index += 2
+                } else {
+                    result.append("al")
+                    index += 4
+                }
+            }
+        }
+
         return result
     }
 }
