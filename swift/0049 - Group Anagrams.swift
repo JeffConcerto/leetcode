@@ -1,3 +1,4 @@
+// Solution #1:
 class Solution {
     func groupAnagrams(_ strs: [String]) -> [[String]] {
         var collection = [[Character: Int]: [String]]()
@@ -24,5 +25,22 @@ class Solution {
         }
 
         return hashCount
+    }
+}
+
+// Solution #2
+class Solution {
+    func groupAnagrams(_ strs: [String]) -> [[String]] {
+        var anagramMap = [[Character:Int]: [String]]()
+        
+        for string in strs {
+            var map = [Character: Int]()
+            for char in string {
+                map[char, default: 0] += 1
+            }
+            anagramMap[map, default: []].append(string)
+        }
+
+        return Array(anagramMap.values)
     }
 }
