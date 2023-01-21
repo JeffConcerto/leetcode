@@ -1,49 +1,37 @@
-// Not my solution. Needed help to solve. Solution belongs to sergeyleschev:
+// Not my solution. Needed help to solve. Solution belongs to neetCode:
 class Solution {
     func restoreIpAddresses(_ s: String) -> [String] {
-        if s.count > 12 || s.count < 4 { return [] }
-
-        var s = Array(s)
+        guard s.count <= 12 else { return [] }
         var result = [String]()
+        let s = Array(s)
 
-        func backtrack(_ path: [Int], _ length: Int) {
-            if path.count == 4 {
-                if length == s.count {
-                    var string = ""
-                    for (index, char) in s.enumerated() {
-                        string.append(char)
-                        if index < length-1 && path.contains(index+1) {
-                            string.append(".")
-                        }
-                    }
-                 result.append(string)
+        func backtrack(_ i: Int, _ dots: Int, _ currentIP: String) {
+            // Check if we've reached the end:
+            guard dots < 4 else {
+                if i == s.count {
+                     // Successful IP address. Add to result.
+                // currentIP has 4 dots, but last dot is not required,
+                // so dropLast():
+                result.append(String(currentIP.dropLast()))
                 }
                 return
             }
-
-            var path = path
-            for i in 1..<4 {
-                if i + length > s.count { break }
-
-                if i >= 2 {
-                    if Int(String(s[length]))! == 0 { break }
-                }
-
-                if i == 3 {
-                    if Int(String(s[length]) + String(s[length+1]) + String(s[length+2]))! > 255 {break}
-                }
-
-                path.append(length + i)
-                backtrack(path, length+i)
-                path.remove(at: path.count-1)
-            }
-
            
-
+            for j in i..<min(i+3, s.count) {
+                // Check if current Integer is valid. Is < 255,
+                // And i == j (only one digit) OR first digit != "0":
+                let string = String(s[i...j])
+                if Int(string)! <= 255 && (i == j || s[i] != "0") {
+                    // If so, backtrack:
+                    let updatedIP = currentIP + string + "."
+                    // print(updatedIP)
+                    backtrack(j+1, dots + 1, updatedIP)
+                }
+            }
         }
-        
-         backtrack([], 0)
-            return result
+
+        backtrack(0,0,"")
+        return result
         
     }
 }
