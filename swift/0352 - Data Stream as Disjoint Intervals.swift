@@ -9,12 +9,12 @@ class SummaryRanges {
     func addNum(_ value: Int) {
         guard !numsSet.contains(value) else { return }
         nums.append(value)
-        nums.sort()
         numsSet.insert(value)
     }
     
     func getIntervals() -> [[Int]] {
         guard !nums.isEmpty else { return [[]] }
+        nums.sort()
         var result = [[Int]]()
         var tempInterval = [nums[0], nums[0]]
         for i in 1..<nums.count {
