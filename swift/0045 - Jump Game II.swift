@@ -1,24 +1,18 @@
-// Needed help to get solution that did not exceed max time:
 class Solution {
     func jump(_ nums: [Int]) -> Int {
-        var count = 0
+        var maxWindow = 0
+        var currentMax = 0
+        var jumps = 0
 
-        var left = 0
-        var right = 0
-
-        while right < nums.count-1 {
-            var maxDistance = 0
-
-            for index in left...right {
-                maxDistance = max(maxDistance, index + nums[index])
+        for (index, num) in nums.enumerated() {
+            guard currentMax < nums.count-1 else { return jumps }
+            maxWindow = max(maxWindow, index + num)
+            if index == currentMax {
+                currentMax = maxWindow
+                jumps += 1
             }
-
-            left = right + 1
-            right = maxDistance
-            count += 1
         }
 
-        return count
-        
+        return jumps
     }
 }
