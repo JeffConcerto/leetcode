@@ -1,88 +1,33 @@
 class Solution {
     func addBinary(_ a: String, _ b: String) -> String {
-        let string1 = Array(a)
-        let string2 = Array(b)
-        
-        var addedString = ""
-        var i = string1.count - 1
-        var j = string2.count - 1
-        
-        var carry = false
-        
-        while i >= 0 && j >= 0 {
-            if string1[i] == "1" && string2[j] == "1" {
-                if carry { 
-                    addedString = "1" + addedString
-                } else {
-                    addedString = "0" + addedString
-                    carry = true
-                }
-            } else if (string1[i] == "1" && string2[j] == "0") || 
-                    (string1[i] == "0" && string2[j] == "1") {
-                        if carry {
-                          addedString = "0" + addedString
-                        } else {
-                            addedString = "1" + addedString
-                        }
-                    }
-            else {
-                if carry {
-                    addedString = "1" + addedString
-                } else {
-                 addedString = "0" + addedString   
-                }
-                
-                carry = false
+        var aString = Array(a)
+        var bString = Array(b)
+        if aString.count < bString.count {
+            for _ in 0..<bString.count - aString.count {
+                aString.insert("0", at: 0)
             }
-            i -= 1
-            j -= 1
-        }
-        
-        if i >= 0 {
-            while i >= 0 {
-                if string1[i] == "1"{
-                    if carry {
-                        addedString = "0" + addedString
-                    } else {
-                        addedString = "1" + addedString
-                    }
-                } else {
-                    if carry {
-                     addedString = "1" + addedString
-                        carry = false
-                    } else {
-                        addedString = "0" + addedString
-                    }
-                }
-                i -= 1
+        } else if bString.count < aString.count {
+            for _ in 0..<aString.count - bString.count {
+                bString.insert("0", at: 0)
             }
         }
-        
-             if j >= 0 {
-            while j >= 0 {
-                if string2[j] == "1"{
-                    if carry {
-                        addedString = "0" + addedString
-                        
-                    } else {
-                        addedString = "1" + addedString
-                    }
-                } else {
-                    if carry {
-                     addedString = "1" + addedString
-                        carry = false
-                    } else {
-                        addedString = "0" + addedString
-                    }
-                }
-             j -= 1
-            }
+
+        var sum = ""
+        var carry = 0
+        let n = aString.count        
+        for i in 0..<n {
+            let digitA = aString[n-i-1].wholeNumberValue!
+            let digitB = bString[n-i-1].wholeNumberValue!
+            var total = digitA + digitB + carry
+            carry = total / 2
+            total %= 2
+            sum = String(total) + sum
+        }
+
+        if carry > 0 {
+            sum = String(carry) + sum
         }
         
-        if carry { addedString = "1" + addedString}
-        
-        return addedString
-        
-        
+        return sum
     }
 }
