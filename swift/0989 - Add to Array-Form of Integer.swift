@@ -1,3 +1,48 @@
+// Solution 1:
+class Solution {
+    func addToArrayForm(_ num: [Int], _ k: Int) -> [Int] {
+        var num = Array(num.reversed())
+        var k = k
+
+        var i = 0
+        var carry = 0
+
+        while k > 0 || i < num.count {
+            let numDigit = i < num.count ? num[i] : 0
+            let kDigit = k % 10
+            let sum = numDigit + kDigit + carry
+            carry = sum / 10
+            let newDigit = sum % 10
+
+            if i >= num.count {
+                num.append(newDigit)
+            } else {
+                num[i] = newDigit
+            }
+
+            k /= 10
+            i += 1
+        }
+
+        while carry > 0 {
+           if i >= num.count {
+                num.append(carry)
+                carry = 0
+            } else {
+                let sum = carry + num[i]
+                carry = sum / 10
+                let newDigit = sum % 10
+                num[i] = newDigit
+            }  
+            i += 1
+        }
+
+        return num.reversed()
+        
+    }
+}
+
+// Solution 2:
 class Solution {
     func addToArrayForm(_ num: [Int], _ k: Int) -> [Int] {
         var k = Array(String(k))
