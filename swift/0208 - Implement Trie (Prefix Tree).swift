@@ -1,3 +1,5 @@
+// Solution borrowed from UpvoteThisPls:
+
 class Trie {
     class Node {
         var sentinel = false
