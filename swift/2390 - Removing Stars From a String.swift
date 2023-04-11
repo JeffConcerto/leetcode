@@ -1,3 +1,21 @@
+// Simple:
+class Solution {
+    func removeStars(_ s: String) -> String {
+        var result = [Character]()
+
+        for char in s {
+            if char == "*" {
+                result.removeLast()
+            } else {
+                result.append(char)
+            }
+        }
+       
+        return String(result)
+    }
+}
+
+// More complicated:
 class Solution {
     func removeStars(_ s: String) -> String {
         var string = Array(s)
