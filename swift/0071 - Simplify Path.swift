@@ -1,3 +1,28 @@
+// Simple Solution:
+class Solution {
+    func simplifyPath(_ path: String) -> String {
+        let path = path + "/"
+        var stack = [String]()
+        var current = ""
+
+        for char in path {
+            if char == "/" {
+                if current == ".." {
+                    stack.popLast()
+                } else if !current.isEmpty && current != "." {
+                    stack.append(current)
+                }
+                current = ""
+            } else {
+                current += String(char)
+            }
+        }
+
+        return "/" + stack.joined(separator: "/")
+    }
+}
+
+// Complex Solutuion:
 class Solution {
     func simplifyPath(_ path: String) -> String {
         var result = ""
