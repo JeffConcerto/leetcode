@@ -1,0 +1,24 @@
+class Solution {
+    func rowAndMaximumOnes(_ mat: [[Int]]) -> [Int] {
+        let rows = mat.count
+        let cols = mat[0].count
+
+        var maxRowIndex = 0
+        var maxCount = 0
+
+        for row in 0..<rows {
+            var count = 0
+            for col in 0..<cols {
+                if mat[row][col] == 1 {
+                    count += 1
+                }
+            }
+            if count > maxCount {
+                maxCount = count
+                maxRowIndex = row
+            }
+        }
+
+        return [maxRowIndex,maxCount]
+    }
+}
