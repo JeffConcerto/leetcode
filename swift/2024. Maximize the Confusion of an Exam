@@ -1,0 +1,43 @@
+class Solution {
+    func maxConsecutiveAnswers(_ answerKey: String, _ k: Int) -> Int {
+        let key = Array(answerKey)
+        var fcount = key[0] == "F" ? 1 : 0
+        var tcount = fcount == 1 ? 0 : 1
+        var start = 0
+        var end = 0
+        var maxi = 0
+
+        while end < key.count {
+            guard maxi <= key.count-start else { break }
+
+            if min(fcount,tcount) <= k {
+                 maxi = max(maxi,fcount+tcount)
+               incrementEnd()
+            } else {
+                incrementStart()
+            }
+        }
+        maxi = max(maxi,fcount+tcount)
+
+        func incrementEnd() {
+                end += 1
+                guard end < key.count else { return }
+                if key[end] == "F" {
+                    fcount += 1
+                } else {
+                    tcount += 1
+                }
+        }
+
+        func incrementStart() {
+            if key[start] == "F" {
+                fcount -= 1
+            } else {
+                tcount -= 1
+            }
+            start += 1
+        }
+
+        return maxi
+    }
+}
