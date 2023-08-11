@@ -1,6 +1,7 @@
 class Solution {
     func change(_ amount: Int, _ coins: [Int]) -> Int {
         var memo = [String: Int]()
+        let coins = coins.sorted(by:>)
         
         func combinations(_ money: Int, _ coin: Int) -> Int {
             guard coin < coins.count else { return 0 }
