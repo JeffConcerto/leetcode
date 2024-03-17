@@ -1,3 +1,50 @@
+// - Updated Solution:
+class Solution {
+    func insert(_ intervals: [[Int]], _ newInterval: [Int]) -> [[Int]] {
+        var i = 0
+        var hasAdddedNewInterval = false
+        var result = [[Int]]()
+
+        while i < intervals.count {
+            let currentStart = intervals[i][0]
+            let currentEnd = intervals[i][0]
+            
+            // - If newInterval starts before current, Insert:
+            if !hasAdddedNewInterval && newInterval[0] < currentStart {
+               addToResult(&result, newInterval[0], newInterval[1])
+               hasAdddedNewInterval = true
+            } else {
+                addToResult(&result, intervals[i][0], intervals[i][1])
+                i += 1
+            }  
+        }
+        if !hasAdddedNewInterval {
+            addToResult(&result, newInterval[0], newInterval[1])
+        }
+        return result
+    }
+
+    private func addToResult(_ result: inout [[Int]], _ start: Int, _ end: Int) {
+        guard !result.isEmpty else {
+            result.append([start,end])
+            return 
+        }
+
+        let currentStart = result.last![0]
+        let currentEnd = result.last![1]
+
+        // - Check for Merge:
+        if start <= currentEnd {
+            result[result.count-1][0] = min(start, currentStart)
+            result[result.count-1][1] = max(end, currentEnd)
+        } else {
+            // - No merge:
+            result.append([start,end])
+        }
+    }
+}
+
+// - Old Solution:
 class Solution {
     func insert(_ intervals: [[Int]], _ newInterval: [Int]) -> [[Int]] {
         guard !intervals.isEmpty else { return [newInterval]}
