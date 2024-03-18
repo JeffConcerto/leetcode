@@ -1,3 +1,30 @@
+// - New Solution:
+class Solution {
+    func findMinArrowShots(_ points: [[Int]]) -> Int {
+        let points = points.sorted { $0[0] <= $1[0] }
+
+        var totalShots = 0
+        var start = Int.min
+        var end = Int.min
+
+        for point in points {
+            let pointStart = point[0]
+            let pointEnd = point[1]
+
+            if pointStart <= end {
+                start = max(start,pointStart)
+                end = min(end, pointEnd)
+            } else {
+                totalShots += 1
+                start = pointStart
+                end = pointEnd
+            }
+        }
+
+        return totalShots == 0 ? 1 : totalShots
+    }
+}
+// Old Solution:
 class Solution {
     func findMinArrowShots(_ points: [[Int]]) -> Int {
         var points = points.sorted { $0[0] < $1[0] }
