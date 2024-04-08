@@ -1,3 +1,32 @@
+// New Solution:
+class Solution {
+    func countStudents(_ students: [Int], _ sandwiches: [Int]) -> Int {
+        var students = students
+        var sandwiches = sandwiches
+
+        while !students.isEmpty {
+            var ateSandwich = false
+            let size = students.count 
+            for _ in 0..<size {
+                if students.first! == sandwiches.first! {
+                    students.removeFirst()
+                    sandwiches.removeFirst()
+                    ateSandwich = true
+                } else {
+                    students.append(students.removeFirst())
+                }
+            }
+            
+            if !ateSandwich {
+                return students.count
+            }
+            
+        }
+
+        return 0
+    }
+}
+// Old Solution:
 class Solution {
     func countStudents(_ students: [Int], _ sandwiches: [Int]) -> Int {
         var students = students
