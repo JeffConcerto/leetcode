@@ -8,6 +8,23 @@
  *     public init(_ val: Int, _ next: ListNode?) { self.val = val; self.next = next; }
  * }
  */
+
+// New Solution:
+class Solution {
+    func middleNode(_ head: ListNode?) -> ListNode? {
+        var slow = head
+        var fast = head
+
+        while fast != nil && fast!.next != nil {
+            slow = slow?.next
+            fast = fast?.next?.next
+        }
+
+        return slow
+    }
+}
+
+// Old Solution:
 class Solution {
     func middleNode(_ head: ListNode?) -> ListNode? {
         var count = 0
