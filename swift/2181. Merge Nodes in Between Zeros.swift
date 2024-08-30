@@ -1,13 +1,25 @@
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     public var val: Int
- *     public var next: ListNode?
- *     public init() { self.val = 0; self.next = nil; }
- *     public init(_ val: Int) { self.val = val; self.next = nil; }
- *     public init(_ val: Int, _ next: ListNode?) { self.val = val; self.next = next; }
- * }
- */
+// New Solution:
+class Solution {
+    func mergeNodes(_ head: ListNode?) -> ListNode? {
+        var start = head
+        var current = head?.next
+        var sum = 0
+        while current != nil {
+           if current!.val != 0 {
+            sum += current!.val
+           } else {
+            start?.next = ListNode(sum)
+            start = start?.next
+            sum = 0
+           }
+            current = current?.next
+        }
+
+        return head?.next
+    }
+}
+
+// OLD Soluton:
 class Solution {
     func mergeNodes(_ head: ListNode?) -> ListNode? {
         var nums = [Int]()
