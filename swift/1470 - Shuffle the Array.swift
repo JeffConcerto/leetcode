@@ -1,3 +1,17 @@
+// New Solution:
+class Solution {
+    func shuffle(_ nums: [Int], _ n: Int) -> [Int] {
+        var result = Array(repeating: 0, count: n*2)
+
+        for i in 0..<n {
+            result[i*2] = nums[i]
+            result[i*2+1] = nums[i+n]
+        }
+
+        return result
+    }
+}
+
 // Solution 1:
 class Solution {
     func shuffle(_ nums: [Int], _ n: Int) -> [Int] {
