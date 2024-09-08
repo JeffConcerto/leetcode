@@ -8,6 +8,23 @@
  *     public init(_ val: Int, _ next: ListNode?) { self.val = val; self.next = next; }
  * }
  */
+
+// New Solution:
+class Solution {
+    func mergeTwoLists(_ list1: ListNode?, _ list2: ListNode?) -> ListNode? {
+        if list1 == nil && list2 == nil  { return nil }
+        if list1?.val ?? 200 <= list2?.val ?? 200 {
+            list1?.next = mergeTwoLists(list1?.next, list2)
+            return list1
+        } else {
+            list2?.next = mergeTwoLists(list1, list2?.next)
+            return list2
+        }
+
+    }
+}
+
+// Old Solution:
 class Solution {
     func mergeTwoLists(_ list1: ListNode?, _ list2: ListNode?) -> ListNode? {
         if list1 == nil && list2 == nil {
