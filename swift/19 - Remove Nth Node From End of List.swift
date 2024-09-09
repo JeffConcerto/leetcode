@@ -1,3 +1,39 @@
+// New Solution:
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     public var val: Int
+ *     public var next: ListNode?
+ *     public init() { self.val = 0; self.next = nil; }
+ *     public init(_ val: Int) { self.val = val; self.next = nil; }
+ *     public init(_ val: Int, _ next: ListNode?) { self.val = val; self.next = next; }
+ * }
+ */
+class Solution {
+    func removeNthFromEnd(_ head: ListNode?, _ n: Int) -> ListNode? {
+        var count = 0
+        var current = head
+        while current != nil {
+            current = current?.next
+            count += 1
+        }
+
+        if count == n { return head?.next }
+
+        let stop = count - n-1
+
+        count = 0
+        current = head
+        while count != stop {
+            current = current?.next
+            count += 1
+        }
+        current?.next = current?.next?.next
+
+        return head
+    }
+}
+
 // Method 1:
 /**
  * Definition for singly-linked list.
