@@ -12,6 +12,35 @@
  * }
  */
 
+// New Solution:
+class Solution {
+    func copyRandomList(_ head: Node?) -> Node? {
+        guard head != nil else { return nil }
+        var map = [Node: Node]()
+
+        var current = head
+
+        while current != nil {
+            let copy = Node(current!.val)
+            map[current!] = copy
+            current = current?.next
+        }
+
+        for (orig, copy) in map {
+            if let random = orig.random, let randomCopy = map[random] {
+                copy.random = randomCopy
+            }
+            if let next = orig.next, let nextCopy = map[next] {
+                copy.next = nextCopy
+            }
+        }
+
+        return map[head!]!
+    }
+}
+
+
+// Old Solution:
 class Solution {
     func copyRandomList(_ head: Node?) -> Node? {
         guard head != nil else { return nil }
