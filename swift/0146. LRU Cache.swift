@@ -1,111 +1,67 @@
-class LRUCache {
-    private var cache = [Int: Node]()
-    private var count = 0
-    private let capacity: Int
-    private var head: Node?
-    private var tail: Node?
+class Node {
+    let key: Int
+    let val: Int
+    var prev: Node?
+    var next: Node?
 
+    init(_ key: Int, _ val: Int) {
+        self.key = key
+        self.val = val
+    }
+}
+
+class LRUCache {
+    private var cache = [Int:Node]()
+    private let cap: Int
+    private var left: Node
+    private var right: Node
 
     init(_ capacity: Int) {
-        self.capacity = capacity   
+        self.cap = capacity
+        self.left = Node(-1,-1)
+        self.right = Node(-1,-1)
+        left.next = right
+        right.prev = left
     }
 
+    private func remove(_ node: Node) {
+        let prev = node.prev
+        let next = node.next
+        node.prev = nil
+        node.next = nil
+        prev?.next = next
+        next?.prev = prev
+        cache[node.key] = nil
+    }
+
+    private func insert(_ node:  Node) {
+        let prev = right.prev
+        prev?.next = node
+        right.prev = node
+        node.prev = prev
+        node.next = right
+        cache[node.key] = node
+    }
+  
+    func get(_ key: Int) -> Int {
+        guard let node = cache[key] else { return -1 }
+        remove(node)
+        insert(node)
+        return node.val
+    }
+    
     func put(_ key: Int, _ value: Int) {
         if let node = cache[key] {
-            node.value = value
-            moveToRecent(node)
-        } else {
-            // Node Does not exist:
-            // Create Node:
-            var node = Node(key: key, value: value)
-            // Check capacity:
-            if count == capacity {
-                // Remove least used Node:
-                evict()
-            }
-            cache[key] = node
-            moveToRecent(node)
-            count += 1
+            remove(node)
+        } else if cache.count == cap, let first = left.next {
+            // Remove least used:
+                remove(first)
         }
-    }
-    
-    func get(_ key: Int) -> Int {
-        if let node = cache[key] {
-            moveToRecent(node)
-            return node.value
-        } else {
-            return -1
-        }
-    }
-
-    // Double List Functions:
-    private func moveToRecent(_ node: Node) {
-        // Check if Node is head:
-        guard node !== head else { return }
-
-        if head == nil {
-            // If has no head/tail:
-            head = node
-            tail = node
-        }  else if node === tail {
-            // Is tail:
-            // Set New Tail:
-            var newTail = tail!.next
-            newTail!.prev = nil
-            tail = newTail
-
-            // Set node as Head:
-            node.prev = head
-            node.next = nil
-            head!.next = node
-            head = node
-        } else {
-            // Remove node from link:
-            if node.next != nil {
-                var child = node.next
-                var parent = node.prev
-                parent!.next = child
-                child!.prev = parent
-            }
-
-            node.prev = head
-            node.next = nil
-            head!.next = node
-            head = node
-        }
-    }
-
-    private func evict() {
-        guard tail != nil else {return }
-        let key = tail!.key
-        cache[key] = nil
-        if tail !== head {
-            tail!.next!.prev = nil
-            tail = tail!.next
-        } else {
-            tail = nil
-            head = nil
-        }
-
-        count -= 1
-    }
-
-    
-    class Node {
-    var key: Int
-    var value: Int
-    var next: Node?
-    var prev: Node?
-
-    init(key: Int, value: Int) {
-        self.key = key
-        self.value = value
+        let node = Node(key, value)
+        cache[key] = node
+        insert(node)
     }
 }
-    
-}
-
-
 
 /**
  * Your LRUCache object will be instantiated and called as such:
@@ -113,4 +69,3 @@ class LRUCache {
  * let ret_1: Int = obj.get(key)
  * obj.put(key, value)
  */
-
