@@ -1,3 +1,23 @@
+// No Heap Soluton:
+class Solution {
+    func kClosest(_ points: [[Int]], _ k: Int) -> [[Int]] {
+        var result = [[Int]]()
+
+        for point in points {
+            let x = point[0]
+            let y = point[1]
+            let distance = x*x + y*y
+            result.append([distance, x, y])
+        }
+
+        result.sort { $0[0] < $1[0] }
+
+        result = result[0..<k].map { [$0[1],$0[2]] }
+        return result
+    }
+}
+
+// Heap Solution:
 class Solution {
     func kClosest(_ points: [[Int]], _ k: Int) -> [[Int]] {
         var heap = Heap<[Int]>() { $0[2] < $1[2] }
