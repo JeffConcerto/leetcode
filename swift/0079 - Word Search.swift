@@ -1,33 +1,41 @@
 class Solution {
     func exist(_ board: [[Character]], _ word: String) -> Bool {
         let word = Array(word)
-        let rows = board.count
-        let cols = board[0].count
-        var seen = Array(repeating: Array(repeating: false, count: cols), count: rows)
+        let m = board.count
+        let n = board[0].count
 
-        func isValid(_ row: Int, _ col: Int, _ wordIndex: Int)-> Bool {
-            guard wordIndex < word.count else { return true }
-            guard row >= 0, row < rows, col >= 0, col < cols else { return false }
-            guard !seen[row][col] && board[row][col] == word[wordIndex] else { return false }
+        var startingCells = [(Int,Int)]()
 
-            seen[row][col] = true
-
-            let hasValidPath = isValid(row-1,col,wordIndex+1) ||
-                                isValid(row+1,col,wordIndex+1) ||
-                                isValid(row,col-1,wordIndex+1) ||
-                                isValid(row,col+1,wordIndex+1)
-
-            seen[row][col] = false
-            return hasValidPath
-        }
-
-        for i in 0..<rows {
-            for j in 0..<cols {
-                if isValid(i,j,0) { return true }
+        for i in 0..<m {
+            for j in 0..<n {
+                if board[i][j] == word[0] {
+                    startingCells.append((i,j))
+                }
             }
         }
 
+        func dfs(_ i: Int, _ j: Int, _ index: Int, _ seen: Set<Int>) -> Bool {
+            if index == word.count { return true }
+            if i < 0 || i >= m { return false }
+            if j < 0 || j >= n { return false }
+            if board[i][j] != word[index] { return false }
+            let cell = i * n + j
+            if seen.contains(cell) { return false }
+            var seen = seen
+            seen.insert(cell)
+
+            let left = dfs(i,j-1,index+1, seen)
+            let right = dfs(i,j+1,index+1, seen)
+            let up = dfs(i+1,j,index+1, seen)
+            let down = dfs(i-1,j,index+1, seen)
+
+            return left || right || up || down
+        }
+
+        for (i,j) in startingCells {
+            if dfs(i,j,0,[]) { return true }
+        }
+        
         return false
     }
 }
-
