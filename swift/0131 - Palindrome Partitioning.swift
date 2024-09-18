@@ -1,39 +1,40 @@
 class Solution {
     func partition(_ s: String) -> [[String]] {
-        guard s.count > 1 else { return [[s]]}
         let s = Array(s)
+        var result = [[String]]()
 
-        var results = [[String]]()
-
-        func backtrack(_ i: Int, _ currentString: String, _ currentResult: [String], _ letterCount: Int) {
-            guard s.count - i + letterCount + currentString.count == s.count else { return }
-            guard i < s.count else {
-                if currentResult.isEmpty || letterCount != s.count { return }
-                results.append(currentResult)
+        func dfs(_ left: Int, _ right: Int, _ sub: [String]) {
+            if right == s.count-1 {
+                if isPal(left,right) {
+                    var sub = sub
+                    sub.append(String(s[left...right]))
+                    result.append(sub)
+                }
                 return
+            } else if right >= s.count { return }
+
+            if isPal(left,right) {
+                dfs(right+1, right+1, sub + [String(s[left...right])])
             }
 
-            for j in i..<s.count {
-                let string = currentString + String(s[i])
-                if isPalindrome(string)  {
-                    backtrack(j+1, "", currentResult + [string], letterCount + string.count)
-                } 
+            dfs(left, right+1, sub)
+        }
 
-                backtrack(j+1, string, currentResult, letterCount)
+        func isPal(_ left: Int, _ right: Int) -> Bool {
+            var left = left
+            var right = right
+
+            while left < right {
+                if s[left] != s[right] { return false }
+                left += 1
+                right -= 1
             }
+
+            return true
         }
 
-        backtrack(0, "", [], 0)
+        dfs(0,0,[])
 
-        return results
-    }
-
-    private func isPalindrome(_ string: String) -> Bool {
-        guard string.count > 1 else { return true }
-        let string = Array(string)
-        for i in 0..<string.count/2 {
-            guard string[i] == string[string.count-1-i] else { return false }
-        }
-        return true
+        return result
     }
 }
